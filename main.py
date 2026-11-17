@@ -99,3 +99,52 @@ def delete_account(accounts, login):
         print("წაშლა გაუქმებულია!")
         return False
 
+def main():
+    accounts = load_accounts()
+
+    while True:
+        print("\n--- ბანკომატი (ATM) ---")
+        print("1. შესვლა (Login)")
+        print("2. რეგისტრაცია")
+        print("3. გასვლა")
+
+        choice = input("აირჩიეთ მოქმედება: ").strip()
+
+        if choice == "1":
+            current_user = login_user(accounts)
+
+            if current_user:
+                while True:
+                    print(f"\n--- პირადი კაბინეტი ({current_user}) ---")
+                    print("1. ბალანსის შემოწმება")
+                    print("2. თანხის შეტანა")
+                    print("3. თანხის გატანა")
+                    print("4. ანგარიშის წაშლა")
+                    print("5. გასვლა (Logout)")
+
+                    next = input("აირჩიეთ ოპერაცია: ").strip()
+
+                    if next == "1":
+                        print(f"თქვენი მიმდინარე ბალანსია: {accounts[current_user]['balance']}")
+                    elif next == "2":
+                        deposit(accounts, current_user)
+                    elif next == "3":
+                        withdraw(accounts, current_user)
+                    elif next == "4":
+                        if delete_account(accounts, current_user):
+                            break
+                    elif next == "5":
+                        break
+                    else:
+                        print("არასწორი არჩევანი, სცადეთ თავიდან.")
+
+        elif choice == "2":
+            register_user(accounts)
+        elif choice == "3":
+            print("მადლობა, რომ სარგებლობთ ჩვენი ბანკომატით!")
+            break
+        else:
+            print("არასწორი არჩევანი, სცადეთ თავიდან.")
+
+if __name__ == "__main__":
+    main()
