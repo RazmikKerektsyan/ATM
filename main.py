@@ -54,3 +54,20 @@ def deposit(accounts, login):
         save_accounts(accounts)
         print(f"ბალანსი წარმატებით შეივსო! მიმდინარე ბალანსი: {accounts[login]['balance']:.2f} ლარი")
 
+def withdraw(accounts, login):
+    try:
+        amount = float(input("შეიყვანეთ გასატანი თანხა: "))
+    except ValueError:
+        print("შეცდომა: გთხოვთ შეიყვანოთ რიცხვი!")
+        return None
+    if amount <= 0:
+        print("თანხა უნდა იყოს ნულზე მეტი!")
+        return None
+    elif amount > accounts[login]["balance"]:
+        print("ანგარიშზე არასაკმარისი თანხაა!")
+        return None
+    else:
+        accounts[login]["balance"] -= amount
+        save_accounts(accounts)
+        print(f"ოპერაცია შესრულდა! ანგარიშზე დარჩენილი თანხა: {accounts[login]['balance']:.2f} ლარი")
+
