@@ -39,3 +39,18 @@ def login_user(accounts):
         print("ზედმეტად ბევრი არასწორი მცდელობა. წვდომა დაბლოკილია!")
         return None
 
+def deposit(accounts, login):
+    try:
+        amount = float(input("შეიყვანეთ შესატანი თანხა: "))
+    except ValueError:
+        print("შეცდომა: გთხოვთ შეიყვანოთ რიცხვი!")
+        return None
+
+    if amount <= 0:
+        print("თანხა უნდა იყოს ნულზე მეტი!")
+        return None
+    else:
+        accounts[login]["balance"] += amount
+        save_accounts(accounts)
+        print(f"ბალანსი წარმატებით შეივსო! მიმდინარე ბალანსი: {accounts[login]['balance']:.2f} ლარი")
+
