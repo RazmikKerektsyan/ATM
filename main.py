@@ -71,3 +71,20 @@ def withdraw(accounts, login):
         save_accounts(accounts)
         print(f"ოპერაცია შესრულდა! ანგარიშზე დარჩენილი თანხა: {accounts[login]['balance']:.2f} ლარი")
 
+def register_user(accounts):
+    new_login = input("შეიყვანეთ მომხმარებელის სახელი (Login): ").strip()
+    if not new_login or ":" in new_login or new_login in accounts:
+        print("მომხმარებელის სახელი დაკავებულია ან შეიცავს დაუშვებელ სიმბოლოწვს!")
+        return None
+    new_pin = input("მოიფიქრეთ 4-ნიშნა PIN-კოდი: ").strip()
+    if len(new_pin) != 4 or not new_pin.isdigit():
+        print("PIN-კოდი უნდა შედგებოდეს ზუსტად 4 ციფრისაგან!")
+        return None
+    else:
+        accounts[new_login] = {
+            "pin": new_pin,
+            "balance": 0.0
+        }
+        save_accounts(accounts)
+        print(f"ანგარიში {new_login} წარმატებით შეიქმნა!")
+
