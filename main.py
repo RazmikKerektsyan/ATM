@@ -88,3 +88,14 @@ def register_user(accounts):
         save_accounts(accounts)
         print(f"ანგარიში {new_login} წარმატებით შეიქმნა!")
 
+def delete_account(accounts, login):
+    confirm = input("დარწმუნებული ხართ, რომ გსურთ ანგარიშის წაშლა? (დიახ/არა): ").strip().lower()
+    if confirm == "დიახ":
+       del accounts[login]
+       save_accounts(accounts)
+       print("ანგარიში წარმატებით წაიშალა.")
+       return True
+    else:
+        print("წაშლა გაუქმებულია!")
+        return False
+
