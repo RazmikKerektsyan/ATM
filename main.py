@@ -1,4 +1,5 @@
 def load_accounts(filename="accounts.txt"):
+    # ტვირთავს მომხმარებლების მონაცემებს ფაილიდან accounts
     accounts = {}
     try:
         with open(filename, "r", encoding="utf-8") as file:
@@ -19,17 +20,19 @@ def load_accounts(filename="accounts.txt"):
     return accounts
 
 def save_accounts(accounts, filename="accounts.txt"):
+    # ინახავს განახლებულ მონაცემებს ტექსტურ ფაილში
     with open(filename, "w", encoding="utf-8") as file:
         for login, data in accounts.items():
             file.write(f"{login}:{data['pin']}:{data['balance']}\n")
 
 def login_user(accounts):
+    # ამოწმებს მომხმარებლის სახელსა და PIN-კოდს
     login = input("Enter your login: ").strip()
     if login not in accounts:
         print("ესეთი login-ი არ არსებობს")
         return None
     else:
-        for attempt in range(3):
+        for attempt in range(3): # მაქსიმუმ 3 მცდელობა
             pin = input("შეიყვანეტ PIN-კოდი ...").strip()
             if pin == accounts[login]["pin"]:
                 print(f"მოგესალმებით {login}!")
@@ -40,6 +43,7 @@ def login_user(accounts):
         return None
 
 def deposit(accounts, login):
+    # ავსებს მომხმარებლის ბალანსს და ანახლებს ფაილს(save_accounts)
     try:
         amount = float(input("შეიყვანეთ შესატანი თანხა: "))
     except ValueError:
@@ -55,6 +59,7 @@ def deposit(accounts, login):
         print(f"ბალანსი წარმატებით შეივსო! მიმდინარე ბალანსი: {accounts[login]['balance']:.2f} ლარი")
 
 def withdraw(accounts, login):
+    # თანხის გატანას ბალანსის შემოწმებით
     try:
         amount = float(input("შეიყვანეთ გასატანი თანხა: "))
     except ValueError:
@@ -72,10 +77,12 @@ def withdraw(accounts, login):
         print(f"ოპერაცია შესრულდა! ანგარიშზე დარჩენილი თანხა: {accounts[login]['balance']:.2f} ლარი")
 
 def register_user(accounts):
+    # ქმნის ახალ ანგარიშს ვალიდაციის გავლის შემდეგ
     new_login = input("შეიყვანეთ მომხმარებელის სახელი (Login): ").strip()
     if not new_login or ":" in new_login or new_login in accounts:
         print("მომხმარებელის სახელი დაკავებულია ან შეიცავს დაუშვებელ სიმბოლოწვს!")
         return None
+    # თუ მომხმარებელის სახელი დაკავებულია არ ქმნის ახალ მომხმარებელს ეს სახელით
     new_pin = input("მოიფიქრეთ 4-ნიშნა PIN-კოდი: ").strip()
     if len(new_pin) != 4 or not new_pin.isdigit():
         print("PIN-კოდი უნდა შედგებოდეს ზუსტად 4 ციფრისაგან!")
@@ -89,6 +96,7 @@ def register_user(accounts):
         print(f"ანგარიში {new_login} წარმატებით შეიქმნა!")
 
 def delete_account(accounts, login):
+    # შლის მომხმარებლის ანგარიშს სისტემიდან და ფაილიდან
     confirm = input("დარწმუნებული ხართ, რომ გსურთ ანგარიშის წაშლა? (დიახ/არა): ").strip().lower()
     if confirm == "დიახ":
        del accounts[login]
@@ -100,6 +108,7 @@ def delete_account(accounts, login):
         return False
 
 def main():
+    # პროგრამის მთავარი მენუ(menu)
     accounts = load_accounts()
 
     while True:
